@@ -15,10 +15,10 @@ Selamat datang, Penggunaan widget dapat lakukan copy paste file isi apiku-wt-ind
 - 24/07/2024 First Update !
 
 # Requirements
-- Basic Knowledge
+Basic Knowledge
 - BIRD2
 - pathvector
-- 
+  
 # pathvector.yml
 configuration pathvector
 
