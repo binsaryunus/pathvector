@@ -22,6 +22,31 @@ Basic Knowledge
 # pathvector.yml
 configuration pathvector
 
+BGP Debian bird2 & pathvector
+[Debian 11]
+download pathvector
+curl https://repo.pathvector.io/pgp.asc > /usr/share/keyrings/pathvector.asc
+echo "deb [signed-by=/usr/share/keyrings/pathvector.asc] https://repo.pathvector.io/apt/ stable main" > /etc/apt/sources.list.d/pathvector.list
+apt update && apt install -y pathvector
+
+config pathvector have update on nano /etc/pathvector.yml
+copy and edit isi example-config.yml
+save file
+lanjutkan perintah di bawah ini :
+sudo apt install bird2
+sudo systemctl enable --now bird
+sudo apt install bgpq4 ( if need can skip)
+sudo pathvector generate
+
+periksa apakah status berjalan dengan normal 
+sudo pathvector status
+
+===== fungsi next hope jika di perlukan =====
+next-hop-self: true
+listen4: ip-vps
+listen6: ip-vps
+====================================
+
 # Sponsor Developer
 - - - - - - - - - - - - - - - -
 BCA : -
