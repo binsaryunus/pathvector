@@ -1,0 +1,2 @@
+# pathvector.yml
+configuration pathvector
