@@ -1,0 +1,103 @@
+asn: your_asn
+router-id: routerid
+source4:  ipv4 vps/dedicate
+source6:  ipv6 vps/dedicate
+rtr-server: routinator.rpki.cc:3323
+prefixes:
+  -  your_IP_announce ipv4/ipv4
+  -  your_IP_announce ipv4/ipv4
+  
+kernel:
+  export: false
+templates:
+  upstream:
+    allow-local-as: true
+    announce: [ "your_asn:0:15" ]
+    remove-all-communities: your_asn
+    import-limit6: 500000
+    receive-limit6: 500000
+    local-pref: 80
+    add-on-import: [ "your_asn:0:12" ]
+
+  routeserver:
+    filter-transit-asns: true
+    auto-import-limits: true
+    enforce-peer-nexthop: false
+    enforce-first-as: false
+    announce: [ "your_asn:0:15" ]
+    remove-all-communities: your_asn
+    local-pref: 90
+    add-on-import: [ "your_asn:0:13" ]
+
+  peer:
+    filter-irr: true
+    filter-transit-asns: true
+    auto-import-limits: true
+    auto-as-set: true
+    announce: [ "your_asn:0:15" ]
+    remove-all-communities: your_asn
+    local-pref: 100
+    add-on-import: [ "your_asn:0:14" ]
+
+  downstream:
+    filter-irr: true
+    allow-blackhole-community: true
+    filter-transit-asns: true
+    auto-import-limits: true
+    auto-as-set: true
+    announce: [ "your_asn:0:15" ]
+    announce-default: true
+    remove-all-communities: your_asn
+    local-pref: 200
+    add-on-import: [ "your_asn:0:15" ]
+
+peers:
+  upstream:
+    asn: upstream_asn
+    template: upstream
+    multihop: false
+    next-hop-self: true
+    enforce-peer-nexthop: false
+    enforce-first-as: false
+    neighbors:
+      - ipv4/ivp6 upstream
+
+  Upstream versi_1:
+    asn: 137295
+    template: upstream
+    neighbors:
+      - ipv4/ivp6 upstream   
+
+  upstream with password:
+    asn: upstream_asn
+    template: upstream
+    multihop: 2
+    next-hop-self: true
+    enforce-peer-nexthop: false
+    enforce-first-as: false
+    password : password
+    neighbors:
+      - ipv4/ivp6 upstream
+  
+  peer1 PEER:
+    asn: peer_asn
+    template: peer
+    neighbors:
+      - ipv4/ivp6 peer
+
+  routerserver:
+    asn: routerserver_asn
+    template: routeserver
+    neighbors:
+      - ipv4/ivp6 routerserver
+
+  downstream with password:
+    asn: downstream_asn
+    template: downstream
+    multihop: 2
+    next-hop-self: true
+    enforce-peer-nexthop: false
+    enforce-first-as: false
+    password : password
+    neighbors:
+      - ipv4/ivp6 downstream
